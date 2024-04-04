@@ -1,3 +1,4 @@
+require('dotenv').config({ path: '../.env' });
 const express = require('express');
 const passport = require('passport');
 const session = require('express-session');
@@ -29,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use(session({
-    secret: 'pppp',
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } 
@@ -73,9 +74,6 @@ passport.use(new LocalStrategy(
 ));
 
 
-
-
-  
   passport.serializeUser(function(user, done) {
     done(null, user.id);
   });
@@ -117,11 +115,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server is running on port ${port}`));
 
 
-// process.on('exit', () => {
-//   db.close((err) => {
-//     if (err) {
-//       console.error(err.message);
-//     }
-//     console.log('Close the database connection.');
-//   });
-// });
